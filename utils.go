@@ -31,11 +31,35 @@ func ReadCredsFromFile(file string) Credentials {
 // Assuming that they all exist. Probably a bad idea. We can
 // expand it later and do a more aggressive error handling.
 func ReadCredsFromEnv() Credentials {
+	var clientID, clientSecret, username, password, userAgent string
+	var exists bool
+
+	clientID, exists = os.LookupEnv("CLIENT_ID")
+	if !exists {
+		clientID = os.Getenv("BOT_CLIENT_ID")
+	}
+	clientSecret, exists = os.LookupEnv("CLIENT_SECRET")
+	if !exists {
+		clientSecret = os.Getenv("BOT_CLIENT_SECRET")
+	}
+	username, exists = os.LookupEnv("USERNAME")
+	if !exists {
+		username = os.Getenv("BOT_USERNAME")
+	}
+	password, exists = os.LookupEnv("PASSWORD")
+	if !exists {
+		password = os.Getenv("BOT_PASSWORD")
+	}
+	userAgent, exists = os.LookupEnv("USER_AGENT")
+	if !exists {
+		userAgent = os.Getenv("BOT_USER_AGENT")
+	}
+
 	return Credentials{
-		os.Getenv("BOT_CLIENT_ID"),
-		os.Getenv("BOT_CLIENT_SECRET"),
-		os.Getenv("BOT_USERNAME"),
-		os.Getenv("BOT_PASSWORD"),
-		os.Getenv("BOT_USER_AGENT"),
+		clientID,
+		clientSecret,
+		username,
+		password,
+		userAgent,
 	}
 }
